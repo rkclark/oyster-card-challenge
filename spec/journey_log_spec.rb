@@ -1,6 +1,5 @@
 require 'journey_log'
 
-
 describe JourneyLog do
 
   let(:journey_class) { Journey }
@@ -38,14 +37,14 @@ describe JourneyLog do
       expect(journey_log.current_journey).to be_a(Journey)
     end
     context "with incomplete journey" do
-      it "does not error" do
+      it "raises no error" do
         expect{journey_log.start(entry_station)}.not_to raise_error
       end
     end
   end
 
   describe "#finish" do
-    it "journeys array count increased by 1" do
+    it "increases journeys count by 1" do
       expect{journey_log.finish(exit_station)}.to change{journey_log.journeys.count}.by 1
     end
     it 'stores a journey in journeys' do
@@ -53,13 +52,15 @@ describe JourneyLog do
       expect(journey_log.journeys[-1]).to be_a(Journey)
     end
     context "with no current journey" do
-      it 'does not error' do
+      it 'raises no error' do
         expect{journey_log.finish(exit_station)}.not_to raise_error
       end
     end
 
-    it 'deducts the journey fare from the oystercard balance' do
+    it 'deducts fare from balance' do
       journey_log.start(entry_station)
+      allow(entry_station).to receive(:zone).and_return(2)
+      allow(exit_station).to receive(:zone).and_return(3)
       expect { journey_log.finish(exit_station) }.not_to raise_error
     end
 

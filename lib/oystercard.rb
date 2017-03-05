@@ -1,6 +1,6 @@
-require_relative "station.rb"
-require_relative "journey.rb"
-require_relative "journey_log.rb"
+require_relative "station"
+require_relative "journey"
+require_relative "journey_log"
 
 class Oystercard
 
@@ -13,13 +13,13 @@ class Oystercard
     @journey_log = JourneyLog.new(Journey, self)
   end
 
-  def top_up(top_up_amt)
-    raise 'Balance cannot exceed 90' if exceeds_max_balance?(top_up_amt)
-    @balance += top_up_amt
+  def top_up(amount)
+    raise 'Balance cannot exceed 90' if exceeds_max_balance?(amount)
+    @balance += amount
   end
 
-  def deduct(deduct_amt)
-    @balance -= deduct_amt
+  def deduct(amount)
+    @balance -= amount
   end
 
   def touch_in(entry_station)
